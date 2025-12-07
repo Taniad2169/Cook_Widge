@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ADA Website Compliance & Audit | Back Office Access</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #14395d 0%, #a0e2eb 58%, #d2f7f2 100%);
+      color: #14395d;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .main-content {
+      background: rgba(255,255,255,0.94);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.09);
+      border-radius: 26px;
+      max-width: 430px;
+      padding: 38px 30px 32px 30px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    h1 {
+      font-size: 1.9rem;
+      letter-spacing: 0.01em;
+      margin: 0 0 13px 0;
+      background: linear-gradient(90deg, #14395d, #a0e2eb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+      font-weight: bold;
+    }
+    .desc, .desc2 {
+      font-size: 1.08rem;
+      line-height: 1.7;
+      margin: 0 0 16px 0;
+      color: #386c99;
+    }
+    .desc2 { color: #23787d; font-size: .97rem; margin-bottom: 22px; }
+    /* Button-link style for a tag (robust!) */
+    .cta-btn-link {
+      display: inline-block;
+      text-decoration: none;
+      background: linear-gradient(90deg, #14395d 0%, #a0e2eb 69%, #d2f7f2 100%);
+      color: #14395d;
+      font-size: 1.13rem;
+      font-weight: bold;
+      padding: 15px 36px;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 3px 14px rgba(20,57,93,0.07);
+      transition: background 0.2s, transform 0.13s;
+      letter-spacing: 0.02em;
+      border: none;
+    }
+    .cta-btn-link:hover, .cta-btn-link:focus {
+      background: linear-gradient(90deg,#1473ae 0%,#80b1ff 100%);
+      color: #fff;
+      transform: translateY(-2px) scale(1.03);
+    }
+    /* Gear Button */
+    #secret-gear {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 999999;
+    }
+    #gear-btn {
+      background: linear-gradient(135deg, #14395d 0%, #a0e2eb 100%);
+      border: none;
+      font-size: 33px;
+      cursor: pointer;
+      color: #fff;
+      border-radius: 50%;
+      box-shadow: 0 2px 11px rgba(20,57,93, 0.35);
+      opacity: 0.81;
+      transition: box-shadow 0.16s, opacity 0.16s;
+      width: 62px; height: 62px;
+      display: flex; align-items: center; justify-content: center;
+      outline: none;
+    }
+    #gear-btn:hover { opacity: 1; box-shadow: 0 6px 19px rgba(20,57,93, .25);}
+    @media (max-width:600px) {
+      .main-content {padding: 18px 6vw 16px 6vw;}
+      #secret-gear {right: 10px; bottom: 10px;}
+      #gear-btn {width: 48px;height: 48px;font-size: 25px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="main-content">
+    <h1>Is Your Website in Full ADA Compliance?</h1>
+    <div class="desc">
+      Are you aware of your state attorney general’s requirements for accessibility? Failure to comply with ADA can lead to costly penalties.
+    </div>
+    <div class="desc2">
+      Click below to check your state compliance requirements and <b>get a free website audit</b>. Don’t risk unwanted legal action—be proactive and protect your business!
+    </div>
+    <a href="https://taniad2169.github.io/WS-Audit-Banner/" target="_blank" rel="noopener" class="cta-btn-link">
+      Click Here For Insight
+    </a>
+  </div>
+
+  <!-- ⚙️ GEAR PORTAL BUTTON (Invisible to ordinary users) -->
+  <div id="secret-gear">
+    <button id="gear-btn" title="Open Settings Backoffice">⚙</button>
+  </div>
+
+  <!-- SECRET PORTAL LOGIC (Gear 7x for password prompt & widget office) -->
+  <script>
+    let gearClickCount = 0, gearTimer = null;
+
+    document.getElementById('gear-btn').addEventListener('click', function() {
+      gearClickCount++;
+      if (gearClickCount === 7) {
+        showPasswordModal();
+        gearClickCount = 0;
+      }
+      if (gearTimer) clearTimeout(gearTimer);
+      gearTimer = setTimeout(()=>{gearClickCount=0;}, 1600);
+    });
+
+    function showPasswordModal() {
+      const modalBg = document.createElement('div');
+      modalBg.id = 'pw-modal-bg';
+      modalBg.style = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,18,61,0.50);z-index:1000000;display:flex;align-items:center;justify-content:center;';
+      document.body.appendChild(modalBg);
+
+      const modal = document.createElement('div');
+      modal.id = 'pw-modal';
+      modal.style = 'background:#fff;padding:34px 30px 24px 30px; border-radius:17px; box-shadow:0 8px 28px rgba(7,21,34,0.38);display:flex;flex-direction:column;align-items:center;min-width:330px;';
+      modal.innerHTML = `
+        <div style="font-weight:bold;font-size:1.3rem;margin-bottom:17px;">🔑 Enter Backoffice Password</div>
+        <input type="password" id="pw-input" style="padding:10px 14px;font-size:17px;border-radius:6px;border:1px solid #a0e2eb;width:90%;" placeholder="Enter your password">
+        <button id="pw-submit" style="margin:17px 0 0 0;padding:10px 32px;font-size:16px;border-radius:6px;background:linear-gradient(90deg,#14395d 0,#a0e2eb 100%);color:#14395d;font-weight:bold;border:none;cursor:pointer;">Login</button>
+        <div id="pw-error" style="color:#d34;margin-top:15px;font-size:14px;display:none;">Wrong password 😢</div>
+      `;
+      modalBg.appendChild(modal);
+
+      document.getElementById('pw-submit').onclick = function() {
+        const pw = document.getElementById('pw-input').value;
+        if (pw === "333") {
+          modalBg.remove();
+          showBackoffice();
+        } else {
+          document.getElementById('pw-error').style.display = 'block';
+        }
+      };
+      // Close modal on outside click
+      modalBg.onclick = function(e) {
+        if (e.target === modalBg) modalBg.remove();
+      }
+    }
+
+    function showBackoffice() {
+      const backModalBg = document.createElement('div');
+      backModalBg.id = 'backoffice-bg';
+      backModalBg.style = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,30,40,0.71);z-index:1000000;display:flex;align-items:center;justify-content:center;';
+      document.body.appendChild(backModalBg);
+
+      const backModal = document.createElement('div');
+      backModal.style =
+        'background:#f5fcff;color:#0d263d;padding:44px 28px 32px 28px;min-width:356px;max-width:98vw;max-height:96vh;overflow:auto;border-radius:19px;box-shadow:0 12px 32px rgba(20,57,93,.20); display:flex; flex-direction:column; align-items:center;';
+      backModalBg.appendChild(backModal);
+
+      backModal.innerHTML = `
+        <div style="font-size:1.65rem;font-weight:bold;text-align:center;margin-bottom:11px;letter-spacing:0.01em;color:#14395d;"><span style="font-size:1.2em;">👑</span> Widget Back Office</div>
+        <div style="font-size:.98rem;text-align:center;color:#25808c;margin-bottom:14px;">Copy your embed code and deliver to your client. No public access.</div>
+        <textarea id="widgetTextarea" readonly style="width:100%; height:120px; margin:14px 0 0 0; font-size:13px; border-radius:7px; padding:13px 9px; color:#123e5d; border:1px solid #a0e2eb; background:#f8fdff;">&lt;script src="https://Taniad2169.github.io/WS-Accss-widg/widget.js"&gt;&lt;/script&gt;</textarea>
+        <button id="copyWidgetCode" style="padding:10px 28px;font-size:16px;border-radius:7px;background:#15b375;color:#fff;margin-top:11px;font-weight:bold;border:none;cursor:pointer;">Copy to clipboard</button>
+        <button id="closeBackoffice" style="margin-top:17px;padding:7px 16px;font-size:14px;border-radius:7px;background:#d32f2f;color:#fff;font-weight:bold;border:none;cursor:pointer;">Close</button>
+        <div id="copiedMsg" style="opacity:0;transition:.3s;color:#218c5a;margin-top:10px;font-weight:bold;"></div>
+      `;
+      // Clipboard and close handling
+      document.getElementById('copyWidgetCode').onclick = function() {
+        const area = document.getElementById('widgetTextarea');
+        area.select(); document.execCommand('copy');
+        document.getElementById('copiedMsg').textContent = "Copied!";
+        document.getElementById('copiedMsg').style.opacity = 1;
+        setTimeout(()=>{document.getElementById('copiedMsg').style.opacity=0},1200);
+      };
+      document.getElementById('closeBackoffice').onclick = function() {
+        backModalBg.remove();
+      };
+      backModalBg.onclick = function(e) {
+        if (e.target === backModalBg) backModalBg.remove();
+      }
+    }
+  </script>
+</body>
+</html>
