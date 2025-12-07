@@ -11,11 +11,11 @@
     // Inject cookie banner CSS
     var link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = 'https://Taniad2169.github.io/WS-Cookie-banner/style.css';
+    link.href = 'https://Taniad2169.github.io/Cook_Widget/style.css';
     document.head.appendChild(link);
 
     // Inject cookie banner HTML
-    fetch('https://Taniad2169.github.io/WS-Cookie-banner/widget.html')
+    fetch('https://Taniad2169.github.io/Cook_Widget/widget.html')
         .then(function(response) { return response.text(); })
         .then(function(html) {
             var container = document.createElement('div');
@@ -24,7 +24,7 @@
 
             // Inject cookie banner logic
             var script = document.createElement('script');
-            script.src = 'https://Taniad2169.github.io/WS-Cookie-banner/script.js';
+            script.src = 'https://Taniad2169.github.io/Cook_Widget/script.js';
             script.defer = true;
             document.body.appendChild(script);
         });
