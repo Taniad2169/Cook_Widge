@@ -1,0 +1,42 @@
+{
+  "name": "ws-cookie-banner",
+  "version": "1.0.0",
+  "description": "GDPR/CCPA Compliant Cookie Banner Widget for Websites",
+  "main": "widget.js",
+  "files": [
+    "widget.html",
+    "style.css",
+    "widget.js",
+    "README.md",
+    "LICENSE",
+    "package.json"
+  ],
+  "keywords": [
+    "cookie",
+    "gdpr",
+    "ccpa",
+    "privacy",
+    "compliance",
+    "banner",
+    "cookie-consent",
+    "website",
+    "widget"
+  ],
+  "author": "WebSwan Digital Solutions",
+  "license": "COMMERCIAL",
+  "homepage": "https://webswandigitalsolutions.com/cookie-banner",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Taniad2169/WS-Cookie-banner.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Taniad2169/WS-Cookie-banner/issues"
+  },
+  "contributors": [
+    "Taniad2169 <you@webswandigitalsolutions.com>"
+  ],
+  "funding": {
+    "type": "individual",
+    "url": "https://webswandigitalsolutions.com/buy"
+  }
+}
