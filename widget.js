@@ -8,13 +8,13 @@
     marker.style.display = 'none';
     document.body.appendChild(marker);
 
-    // Inject CSS
+    // Inject cookie banner CSS
     var link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = 'https://Taniad2169.github.io/WS-Cookie-banner/style.css';
     document.head.appendChild(link);
 
-    // Inject HTML
+    // Inject cookie banner HTML
     fetch('https://Taniad2169.github.io/WS-Cookie-banner/widget.html')
         .then(function(response) { return response.text(); })
         .then(function(html) {
@@ -22,7 +22,7 @@
             container.innerHTML = html;
             document.body.appendChild(container);
 
-            // Inject Script for logic (ensures modal/buttons work)
+            // Inject cookie banner logic
             var script = document.createElement('script');
             script.src = 'https://Taniad2169.github.io/WS-Cookie-banner/script.js';
             script.defer = true;
