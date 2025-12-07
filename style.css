@@ -1,0 +1,302 @@
+/* Cookie Banner Widget Styles
+   Copyright (c) 2024 Taniad2169 & WebSwan Digital Solutions
+   All Rights Reserved
+*/
+
+.ws-cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    background: #fff;
+    color: #14395d;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-top: 2px solid #14395d;
+    box-shadow: 0 -2px 20px rgba(20, 57, 93, 0.07);
+    padding: 24px 10vw 22px 10vw;
+}
+.ws-cookie-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.ws-cookie-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+}
+.ws-cookie-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #14395d;
+    margin: 0 0 4px 0;
+}
+.ws-cookie-description {
+    color: #14395d;
+    font-size: 1rem;
+    line-height: 1.56;
+    margin: 0;
+}
+.ws-cookie-links {
+    display: flex;
+    gap: 20px;
+    margin: 7px 0 0 0;
+}
+.ws-cookie-link {
+    color: #14395d;
+    text-decoration: underline;
+    font-size: 0.93rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.ws-cookie-link:hover {
+    color: #0b223a;
+}
+.ws-cookie-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 13px;
+}
+.ws-cookie-btn {
+    padding: 10px 30px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background .17s;
+    letter-spacing: 0.01em;
+    box-shadow: 0 2px 8px rgba(20,57,93,0.05);
+}
+.ws-cookie-btn-accept, .ws-cookie-btn-reject {
+    background: #14395d;
+    color: #fff;
+}
+.ws-cookie-btn-accept:hover, .ws-cookie-btn-reject:hover {
+    background: #08203a;
+}
+.ws-cookie-btn-settings {
+    background: #fff;
+    color: #14395d;
+    border: 1.5px solid #14395d;
+}
+.ws-cookie-btn-settings:hover {
+    background: #14395d;
+    color: #fff;
+}
+.ws-cookie-modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(20,57,93,0.33);
+    z-index: 11000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.28s, visibility 0.28s;
+}
+.ws-cookie-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+.ws-cookie-modal-content {
+    background: #fff;
+    border-radius: 10px;
+    width: 90vw;
+    max-width: 520px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 36px rgba(20, 57, 93, 0.10);
+    padding: 32px 24px;
+}
+.ws-cookie-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    border-bottom: 1.3px solid #eaeaea;
+    padding-bottom: 14px;
+}
+.ws-cookie-modal-title {
+    color: #14395d;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+.ws-cookie-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.7rem;
+    color: #14395d;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background .2s;
+}
+.ws-cookie-modal-close:hover {
+    background: #eaf2fb;
+}
+.ws-cookie-category {
+    background: #eef4fa;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #d6e0ea;
+}
+.ws-cookie-category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+.ws-cookie-category-title {
+    font-weight: 600;
+    color: #14395d;
+    margin: 0 0 5px 0;
+}
+.ws-cookie-category-description {
+    color: #214274;
+    font-size: 0.96rem;
+    line-height: 1.4;
+    margin-bottom: 0;
+}
+.ws-cookie-toggle {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 25px;
+}
+.ws-cookie-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.ws-cookie-toggle-slider {
+    position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #aaa; transition: .4s; border-radius: 25px;
+}
+.ws-cookie-toggle-slider:before {
+    position: absolute; content: "";
+    height: 17px; width: 17px; left: 4px; bottom: 4px;
+    background-color: white; transition: .4s; border-radius: 50%;
+}
+.ws-cookie-toggle input:checked + .ws-cookie-toggle-slider {
+    background: #14395d;
+}
+.ws-cookie-toggle input:checked + .ws-cookie-toggle-slider:before {
+    transform: translateX(25px);
+}
+.ws-cookie-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 14px;
+    margin-top: 20px;
+    padding-top: 12px;
+    border-top: 1.3px solid #eaeaea;
+}
+
+/* Do Not Sell Modal */
+.ws-dns-modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(20,57,93,0.30);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 11200;
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.28s, visibility 0.28s;
+}
+.ws-dns-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+.ws-dns-modal-content {
+    background: #fff;
+    border-radius: 10px;
+    width: 90vw;
+    max-width: 480px;
+    max-height: 75vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 36px rgba(20, 57, 93, 0.10);
+    padding: 28px 22px;
+}
+.ws-dns-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    border-bottom: 1.3px solid #eaeaea;
+    padding-bottom: 12px;
+}
+.ws-dns-modal-title {
+    color: #14395d;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+.ws-dns-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.6rem;
+    color: #14395d;
+    cursor: pointer;
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+.ws-dns-modal-close:hover {
+    background: #eaf2fb;
+}
+.ws-dns-toggle-box {
+    display: flex; justify-content: space-between; align-items: center;
+    margin: 21px 0;
+    padding: 12px;
+    background: #eef4fa;
+    border-radius: 7px;
+    font-weight: bold;
+    color: #14395d;
+}
+.ws-dns-actions {
+    display: flex; justify-content: flex-end; gap: 14px; margin-top: 16px; padding-top: 12px; border-top: 1.3px solid #eaeaea;
+}
+.ws-legal-status {
+    display: flex; align-items: center; gap: 8px; margin: 14px 0; padding: 12px;
+    border-radius: 6px;
+    background: #f3f8fc;
+    font-size: 0.99rem;
+    color: #214274;
+}
+.ws-status-indicator {
+    width: 12px; height: 12px; border-radius: 50%; background: #28a745; animation: pulse 2s infinite;
+}
+.ws-status-indicator.pending { background: #ffc107; }
+.ws-status-indicator.error { background: #dc3545; }
+.ws-status-text { color: #214274; font-weight: 500; }
+@keyframes pulse { 0%{opacity:1;} 50%{opacity:.5;} 100%{opacity:1;} }
+.ws-dns-persistent {
+    position: fixed; bottom: 100px; right: 40px;
+    background: #14395d;
+    color: #fff; border: none; border-radius: 25px;
+    padding: 12px 20px; font-size: 14px; font-weight: 700;
+    cursor: pointer; box-shadow: 0 4px 15px rgba(20,57,93,0.20);
+    z-index: 9999; display: flex; align-items: center; gap: 8px;
+    transition: background 0.3s,box-shadow 0.3s;
+    font-family: inherit; white-space: nowrap; max-width: 220px;
+}
+.ws-dns-persistent:hover { background: #0b223a; box-shadow: 0 8px 30px rgba(20,57,93,0.28);}
+.ws-dns-icon { font-size: 15px; margin-right:6px; }
+.ws-dns-text { font-size: 13px; }
+@media (max-width: 768px) {
+    .ws-cookie-header { flex-direction: column; }
+    .ws-cookie-actions { flex-direction: column; }
+    .ws-cookie-btn { width: 100%; }
+    .ws-cookie-links { flex-direction: column; gap: 12px;}
+    .ws-dns-persistent { bottom: 70px; right: 12px; max-width: 145px; padding: 9px 10px;}
+    .ws-dns-text { font-size: 11px; }
+}
+@media (max-width: 480px) {
+    .ws-dns-persistent { padding: 6px 6px; font-size:10px; }
+    .ws-dns-text { font-size:9px; }
+}
