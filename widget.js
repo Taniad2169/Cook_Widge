@@ -48,7 +48,7 @@
                 setTimeout(function() {
                     console.log('DOM ready, loading script...');
                     resolve();
-                }, 150);
+                }, 250);
             });
         })
         .then(function() {
