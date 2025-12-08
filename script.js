@@ -177,22 +177,55 @@
         var doNotSellLink = document.getElementById('wsDoNotSell');
 
         if (acceptBtn) {
-            acceptBtn.addEventListener('click', acceptAllCookies);
+            acceptBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Accept button clicked');
+                acceptAllCookies();
+            });
+        } else {
+            console.error('Accept button not found');
         }
 
         if (rejectBtn) {
-            rejectBtn.addEventListener('click', rejectAllCookies);
+            rejectBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Reject button clicked');
+                rejectAllCookies();
+            });
+        } else {
+            console.error('Reject button not found');
         }
 
         if (settingsBtn) {
-            settingsBtn.addEventListener('click', showCookieSettings);
+            settingsBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Settings button clicked');
+                showCookieSettings();
+            });
+            settingsBtn.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    showCookieSettings();
+                }
+            });
+        } else {
+            console.error('Settings button not found');
         }
 
         if (doNotSellLink) {
             doNotSellLink.addEventListener('click', function(e) {
                 e.preventDefault();
+                console.log('Do Not Sell link clicked');
                 showDnsModal();
             });
+            doNotSellLink.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    showDnsModal();
+                }
+            });
+        } else {
+            console.error('Do Not Sell link not found');
         }
 
         // Cookie settings modal buttons
