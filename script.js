@@ -1,221 +1,285 @@
-// ============================================
-// COOKIE BANNER WIDGET - SCRIPT
-// script.js - Cookie Consent JavaScript Logic
-// ============================================
+(function() {
+    'use strict';
 
-document.addEventListener('DOMContentLoaded', function() {
-    const cookieBanner = document.getElementById('wsCookieBanner');
-    const cookieModal = document.getElementById('wsCookieModal');
-    const dnsModal = document.getElementById('wsDnsModal');
-    const cookieAccept = document.getElementById('wsCookieAccept');
-    const cookieReject = document.getElementById('wsCookieReject');
-    const cookieSettings = document.getElementById('wsCookieSettings');
-    const cookieModalClose = document.getElementById('wsCookieModalClose');
-    const cookieModalSave = document.getElementById('wsCookieModalSave');
-    const cookieModalReject = document.getElementById('wsCookieModalReject');
-    const doNotSellLink = document.getElementById('wsDoNotSell');
-    const dnsModalClose = document.getElementById('wsDnsModalClose');
-    const dnsCancel = document.getElementById('wsDnsCancel');
-    const dnsSave = document.getElementById('wsDnsSave');
-    const legalStatus = document.getElementById('wsLegalStatus');
-    const statusIndicator = document.getElementById('wsStatusIndicator');
-    const statusText = document.getElementById('wsStatusText');
-    const dnsPersistentButton = document.getElementById('wsDnsPersistentButton');
-
-    // Cookie consent check
-    if (!wsGetCookie('wsCookieConsent')) {
-        cookieBanner.style.display = 'block';
-    } else {
-        cookieBanner.style.display = 'none';
-    }
-
-    // Accept all cookies
-    cookieAccept.addEventListener('click', function() {
-        wsSetCookie('wsCookieConsent', 'all', 365);
-        wsSetCookie('wsPerformanceCookies', 'true', 365);
-        wsSetCookie('wsFunctionalCookies', 'true', 365);
-        wsSetCookie('wsTargetingCookies', 'true', 365);
-        cookieBanner.style.display = 'none';
-    });
-
-    // Reject all cookies (only necessary)
-    cookieReject.addEventListener('click', function() {
-        wsSetCookie('wsCookieConsent', 'necessary', 365);
-        wsSetCookie('wsPerformanceCookies', 'false', 365);
-        wsSetCookie('wsFunctionalCookies', 'false', 365);
-        wsSetCookie('wsTargetingCookies', 'false', 365);
-        cookieBanner.style.display = 'none';
-    });
-
-    // Open cookie settings modal
-    cookieSettings.addEventListener('click', function() {
-        cookieModal.classList.add('active');
-    });
-
-    // Close cookie settings modal
-    cookieModalClose.addEventListener('click', function() {
-        cookieModal.classList.remove('active');
-    });
-
-    // Reject all in modal
-    cookieModalReject.addEventListener('click', function() {
-        document.getElementById('wsPerformanceCookies').checked = false;
-        document.getElementById('wsFunctionalCookies').checked = false;
-        document.getElementById('wsTargetingCookies').checked = false;
-
-        wsSetCookie('wsCookieConsent', 'necessary', 365);
-        wsSetCookie('wsPerformanceCookies', 'false', 365);
-        wsSetCookie('wsFunctionalCookies', 'false', 365);
-        wsSetCookie('wsTargetingCookies', 'false', 365);
-
-        cookieModal.classList.remove('active');
-        cookieBanner.style.display = 'none';
-    });
-
-    // Save preferences from modal
-    cookieModalSave.addEventListener('click', function() {
-        const performance = document.getElementById('wsPerformanceCookies').checked;
-        const functional = document.getElementById('wsFunctionalCookies').checked;
-        const targeting = document.getElementById('wsTargetingCookies').checked;
-
-        if (performance && functional && targeting) {
-            wsSetCookie('wsCookieConsent', 'all', 365);
-        } else if (!performance && !functional && !targeting) {
-            wsSetCookie('wsCookieConsent', 'necessary', 365);
-        } else {
-            wsSetCookie('wsCookieConsent', 'custom', 365);
+    // Cookie utility functions
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
         }
-
-        wsSetCookie('wsPerformanceCookies', performance.toString(), 365);
-        wsSetCookie('wsFunctionalCookies', functional.toString(), 365);
-        wsSetCookie('wsTargetingCookies', targeting.toString(), 365);
-
-        cookieModal.classList.remove('active');
-        cookieBanner.style.display = 'none';
-    });
-
-    // Open Do Not Sell modal
-    doNotSellLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        dnsModal.classList.add('active');
-        const currentPref = wsGetCookie('wsDoNotSell');
-        document.getElementById('wsDoNotSellToggle').checked = currentPref === 'true';
-        legalStatus.style.display = 'none';
-    });
-
-    // Persistent Do Not Sell Button - Show DNS modal
-    dnsPersistentButton.addEventListener('click', function() {
-        dnsModal.classList.add('active');
-        const currentPref = wsGetCookie('wsDoNotSell');
-        document.getElementById('wsDoNotSellToggle').checked = currentPref === 'true';
-        legalStatus.style.display = 'none';
-    });
-
-    // Close DNS modal
-    dnsModalClose.addEventListener('click', function() {
-        dnsModal.classList.remove('active');
-    });
-
-    // Cancel DNS modal
-    dnsCancel.addEventListener('click', function() {
-        dnsModal.classList.remove('active');
-    });
-
-    // Save DNS preference
-    dnsSave.addEventListener('click', function() {
-        const doNotSell = document.getElementById('wsDoNotSellToggle').checked;
-
-        legalStatus.style.display = 'flex';
-        statusIndicator.className = 'ws-status-indicator pending';
-        statusText.textContent = 'Processing your request...';
-
-        wsRegisterLegalPreference(doNotSell)
-            .then(function(success) {
-                if (success) {
-                    statusIndicator.className = 'ws-status-indicator';
-                    statusText.textContent = 'Preference legally registered and saved';
-                    wsSetCookie('wsDoNotSell', doNotSell.toString(), 365);
-
-                    setTimeout(function() {
-                        dnsModal.classList.remove('active');
-                        if (doNotSell) {
-                            wsImplementDoNotSell();
-                        }
-                    }, 1500);
-                } else {
-                    statusIndicator.className = 'ws-status-indicator error';
-                    statusText.textContent = 'Registration failed. Please try again.';
-                }
-            })
-            .catch(function(error) {
-                statusIndicator.className = 'ws-status-indicator error';
-                statusText.textContent = 'Registration failed. Please try again.';
-            });
-    });
-
-    // Load saved preferences for modal toggles
-    const performancePref = wsGetCookie('wsPerformanceCookies');
-    const functionalPref = wsGetCookie('wsFunctionalCookies');
-    const targetingPref = wsGetCookie('wsTargetingCookies');
-
-    if (performancePref !== null) {
-        document.getElementById('wsPerformanceCookies').checked = performancePref === 'true';
-    }
-    if (functionalPref !== null) {
-        document.getElementById('wsFunctionalCookies').checked = functionalPref === 'true';
-    }
-    if (targetingPref !== null) {
-        document.getElementById('wsTargetingCookies').checked = targetingPref === 'true';
+        document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
     }
 
-    // Cookie utility
-    function wsSetCookie(name, value, days) {
-        const date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        const expires = "expires=" + date.toUTCString();
-        document.cookie = name + "=" + value + ";" + expires + ";path=/;SameSite=Lax";
-    }
-
-    function wsGetCookie(name) {
-        const nameEQ = name + "=";
-        const ca = document.cookie.split(';');
-        for (let i = 0; i < ca.length; i++) {
-            let c = ca[i];
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
             while (c.charAt(0) === ' ') c = c.substring(1, c.length);
             if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
         }
         return null;
     }
 
-    // Implement Do Not Sell functionality
-    function wsImplementDoNotSell() {
-        if (navigator.globalPrivacyControl !== undefined) {
-            navigator.globalPrivacyControl = true;
-        }
-        console.log('Do Not Sell preference implemented');
+    function eraseCookie(name) {
+        document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     }
 
-    // Simulate legal preference registration
-    function wsRegisterLegalPreference(doNotSell) {
-        return new Promise(function(resolve, reject) {
+    // Check if user has already made a choice
+    function checkCookieConsent() {
+        var consent = getCookie('ws_cookie_consent');
+        var banner = document.getElementById('wsCookieBanner');
+        var persistentBtn = document.getElementById('wsDnsPersistentButton');
+
+        if (consent) {
+            if (banner) banner.style.display = 'none';
+            if (persistentBtn) persistentBtn.style.display = 'block';
+        } else {
+            if (banner) banner.style.display = 'block';
+            if (persistentBtn) persistentBtn.style.display = 'none';
+        }
+    }
+
+    // Save cookie preferences
+    function savePreferences(accepted) {
+        var preferences = {
+            necessary: true,
+            performance: accepted ? document.getElementById('wsPerformanceCookies')?.checked : false,
+            functional: accepted ? document.getElementById('wsFunctionalCookies')?.checked : false,
+            targeting: accepted ? document.getElementById('wsTargetingCookies')?.checked : false,
+            timestamp: new Date().toISOString()
+        };
+
+        setCookie('ws_cookie_consent', JSON.stringify(preferences), 365);
+        
+        var banner = document.getElementById('wsCookieBanner');
+        var persistentBtn = document.getElementById('wsDnsPersistentButton');
+        
+        if (banner) banner.style.display = 'none';
+        if (persistentBtn) persistentBtn.style.display = 'block';
+
+        console.log('Cookie preferences saved:', preferences);
+    }
+
+    // Accept all cookies
+    function acceptAllCookies() {
+        // Set all checkboxes to checked
+        var performanceCheckbox = document.getElementById('wsPerformanceCookies');
+        var functionalCheckbox = document.getElementById('wsFunctionalCookies');
+        var targetingCheckbox = document.getElementById('wsTargetingCookies');
+
+        if (performanceCheckbox) performanceCheckbox.checked = true;
+        if (functionalCheckbox) functionalCheckbox.checked = true;
+        if (targetingCheckbox) targetingCheckbox.checked = true;
+
+        savePreferences(true);
+    }
+
+    // Reject all cookies (except necessary)
+    function rejectAllCookies() {
+        var performanceCheckbox = document.getElementById('wsPerformanceCookies');
+        var functionalCheckbox = document.getElementById('wsFunctionalCookies');
+        var targetingCheckbox = document.getElementById('wsTargetingCookies');
+
+        if (performanceCheckbox) performanceCheckbox.checked = false;
+        if (functionalCheckbox) functionalCheckbox.checked = false;
+        if (targetingCheckbox) targetingCheckbox.checked = false;
+
+        savePreferences(false);
+    }
+
+    // Show cookie settings modal
+    function showCookieSettings() {
+        var modal = document.getElementById('wsCookieModal');
+        if (modal) {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    // Hide cookie settings modal
+    function hideCookieSettings() {
+        var modal = document.getElementById('wsCookieModal');
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+    }
+
+    // Show Do Not Sell modal
+    function showDnsModal() {
+        var modal = document.getElementById('wsDnsModal');
+        if (modal) {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            // Load current preference
+            var dnsPreference = getCookie('ws_do_not_sell');
+            var toggle = document.getElementById('wsDoNotSellToggle');
+            if (toggle) {
+                toggle.checked = dnsPreference === 'true';
+            }
+        }
+    }
+
+    // Hide Do Not Sell modal
+    function hideDnsModal() {
+        var modal = document.getElementById('wsDnsModal');
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+    }
+
+    // Save Do Not Sell preference
+    function saveDnsPreference() {
+        var toggle = document.getElementById('wsDoNotSellToggle');
+        var statusDiv = document.getElementById('wsLegalStatus');
+        var statusIndicator = document.getElementById('wsStatusIndicator');
+        var statusText = document.getElementById('wsStatusText');
+
+        if (toggle && statusDiv && statusIndicator && statusText) {
+            // Show processing status
+            statusDiv.style.display = 'flex';
+            statusIndicator.className = 'ws-status-indicator ws-status-processing';
+            statusText.textContent = 'Processing your request...';
+
+            // Simulate processing delay
             setTimeout(function() {
-                const success = Math.random() > 0.1;
-                if (success) {
-                    resolve(true);
-                } else {
-                    reject(new Error('Legal registration service unavailable'));
+                var optedOut = toggle.checked;
+                setCookie('ws_do_not_sell', optedOut.toString(), 365);
+
+                // Show success status
+                statusIndicator.className = 'ws-status-indicator ws-status-success';
+                statusText.textContent = optedOut 
+                    ? 'Your opt-out preference has been registered successfully.' 
+                    : 'Your preference has been updated.';
+
+                // Hide modal after delay
+                setTimeout(function() {
+                    hideDnsModal();
+                    statusDiv.style.display = 'none';
+                }, 2000);
+
+                console.log('Do Not Sell preference saved:', optedOut);
+            }, 1000);
+        }
+    }
+
+    // Initialize all event listeners
+    function initEventListeners() {
+        // Main banner buttons
+        var acceptBtn = document.getElementById('wsCookieAccept');
+        var rejectBtn = document.getElementById('wsCookieReject');
+        var settingsBtn = document.getElementById('wsCookieSettings');
+        var doNotSellLink = document.getElementById('wsDoNotSell');
+
+        if (acceptBtn) {
+            acceptBtn.addEventListener('click', acceptAllCookies);
+        }
+
+        if (rejectBtn) {
+            rejectBtn.addEventListener('click', rejectAllCookies);
+        }
+
+        if (settingsBtn) {
+            settingsBtn.addEventListener('click', showCookieSettings);
+        }
+
+        if (doNotSellLink) {
+            doNotSellLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                showDnsModal();
+            });
+        }
+
+        // Cookie settings modal buttons
+        var modalClose = document.getElementById('wsCookieModalClose');
+        var modalReject = document.getElementById('wsCookieModalReject');
+        var modalSave = document.getElementById('wsCookieModalSave');
+        var modal = document.getElementById('wsCookieModal');
+
+        if (modalClose) {
+            modalClose.addEventListener('click', hideCookieSettings);
+        }
+
+        if (modalReject) {
+            modalReject.addEventListener('click', function() {
+                rejectAllCookies();
+                hideCookieSettings();
+            });
+        }
+
+        if (modalSave) {
+            modalSave.addEventListener('click', function() {
+                savePreferences(true);
+                hideCookieSettings();
+            });
+        }
+
+        if (modal) {
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    hideCookieSettings();
                 }
-            }, 2000);
+            });
+        }
+
+        // Do Not Sell modal buttons
+        var dnsClose = document.getElementById('wsDnsModalClose');
+        var dnsCancel = document.getElementById('wsDnsCancel');
+        var dnsSave = document.getElementById('wsDnsSave');
+        var dnsModal = document.getElementById('wsDnsModal');
+        var dnsPersistentBtn = document.getElementById('wsDnsPersistentButton');
+
+        if (dnsClose) {
+            dnsClose.addEventListener('click', hideDnsModal);
+        }
+
+        if (dnsCancel) {
+            dnsCancel.addEventListener('click', hideDnsModal);
+        }
+
+        if (dnsSave) {
+            dnsSave.addEventListener('click', saveDnsPreference);
+        }
+
+        if (dnsModal) {
+            dnsModal.addEventListener('click', function(e) {
+                if (e.target === dnsModal) {
+                    hideDnsModal();
+                }
+            });
+        }
+
+        if (dnsPersistentBtn) {
+            dnsPersistentBtn.addEventListener('click', showDnsModal);
+        }
+
+        // Keyboard accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                hideCookieSettings();
+                hideDnsModal();
+            }
         });
     }
 
-    // Close modals when clicking outside
-    window.addEventListener('click', function(event) {
-        if (event.target === cookieModal) {
-            cookieModal.classList.remove('active');
-        }
-        if (event.target === dnsModal) {
-            dnsModal.classList.remove('active');
-        }
-    });
-});
+    // Initialize on load
+    function init() {
+        checkCookieConsent();
+        initEventListeners();
+        console.log('Cookie banner initialized');
+    }
+
+    // Wait a bit to ensure DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        // DOM already loaded, wait a moment for widget HTML to be parsed
+        setTimeout(init, 100);
+    }
+
+})();
