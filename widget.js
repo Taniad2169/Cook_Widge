@@ -1,6 +1,6 @@
 /**
  * Cookie Consent Widget - FULL VERSION
- * Includes: Accept/Decline, Cookie Settings Modal, Do Not Sell My Information
+ * Includes: Accept/Decline, Cookie Settings, Do Not Sell My Information (visible button)
  */
 
 (function() {
@@ -156,6 +156,20 @@
     
     .cookie-btn-settings:hover {
       background: rgba(160, 226, 235, 0.1);
+    }
+
+    .cookie-btn-donotsell {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      padding: 10px 20px;
+      font-size: 14px;
+      text-decoration: underline;
+    }
+    
+    .cookie-btn-donotsell:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #fff;
     }
 
     /* Cookie Settings Modal */
@@ -398,6 +412,7 @@
         <button class="cookie-btn cookie-btn-accept" id="cookie-accept">Accept All</button>
         <button class="cookie-btn cookie-btn-decline" id="cookie-decline">Decline</button>
         <button class="cookie-btn cookie-btn-settings" id="cookie-settings">Cookie Settings</button>
+        <button class="cookie-btn cookie-btn-donotsell" id="cookie-donotsell">Do Not Sell My Information</button>
       </div>
     </div>
   `;
@@ -572,6 +587,7 @@
     const acceptBtn = document.getElementById('cookie-accept');
     const declineBtn = document.getElementById('cookie-decline');
     const settingsBtn = document.getElementById('cookie-settings');
+    const doNotSellBtn = document.getElementById('cookie-donotsell');
     
     if (acceptBtn) {
       acceptBtn.addEventListener('click', handleAccept);
@@ -583,6 +599,10 @@
 
     if (settingsBtn) {
       settingsBtn.addEventListener('click', showSettingsModal);
+    }
+
+    if (doNotSellBtn) {
+      doNotSellBtn.addEventListener('click', showSettingsModal);
     }
 
     console.log('🍪 Cookie consent banner loaded with full settings');
